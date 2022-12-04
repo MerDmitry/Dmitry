@@ -1,0 +1,25 @@
+from bs4 import BeautifulSoup
+import urllib.request
+
+req = urllib.request.urlopen(https://dzen.ru/interfax?utm_source=yandex&utm_medium=cpc&utm_campaign=%5BMoscow%5DSEARCH_Category_News&utm_content=none&_openstat=ZGlyZWN0LnlhbmRleC5ydTs4MDcyMzkzOTsxMzA4OTQ4ODQwNTt5YW5kZXgucnU6cHJlbWl1bQ&yclid=12001468698532249599)
+
+soup = BeautifulSoup(html, 'html.parser')
+news = soup.find_all('li', class_='feed_row')
+results = []
+
+for item in news:
+  title = item.find('a', class_='aria-label').get_text(strip=true)
+  desc = item.find('div', class_='card-layer-snippet-view').get_text(strip=true)
+  href = item.a.get('href')
+  results.append ({
+    'tuttle': tittle,
+    'desc': desc,
+    'href': href,
+  })
+
+f = open('news.txt', 'w', encoding='utf-8')
+i=1
+for item in results:
+  f.write(f'Новость № (i)\n\nНазвание: {item["title"]}\nОписание:{item["desc"]}\nСсылка:{item["href"]}\n\n********************\n')
+  i+=1
+f.close()
